@@ -4,9 +4,9 @@
  */
 package views;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import middleware.authentication;
+import views.main;
 /**
  *
  * @author mac
@@ -127,9 +127,15 @@ public class auth extends javax.swing.JFrame {
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         try {
             if(!this.auth()) {
-                System.out.print("Ligin ggagal");
+                JOptionPane.showMessageDialog(this, "Login Gagal, Username atau Password anda salah !!");
             } else {
-                System.out.print("Ligin berhasil");
+                JOptionPane.showMessageDialog(this, "Login Berhasil !!");
+                
+                // Show main page
+                main main = new main();
+                
+                this.setVisible(false);
+                main.setVisible(true);
             }
         } catch (Exception ex) {
             System.out.print("Connection error");
