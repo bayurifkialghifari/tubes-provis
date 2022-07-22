@@ -106,7 +106,7 @@ public class main extends javax.swing.JFrame {
         content = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(750, 450));
+        setPreferredSize(new java.awt.Dimension(1000, 750));
 
         menuPanel.setBackground(new java.awt.Color(0, 51, 51));
         menuPanel.setForeground(new java.awt.Color(255, 255, 255));
