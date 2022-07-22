@@ -6,6 +6,7 @@ package views;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import views.beranda;
 import views.product;
 import views.in_product;
 import views.out_product;
@@ -19,6 +20,7 @@ import views.user;
 public class main extends javax.swing.JFrame {
 
     // Call view   
+    public beranda beranda = new beranda();
     public product product = new product();
     public in_product in_product = new in_product();
     public out_product out_product = new out_product();
@@ -35,6 +37,7 @@ public class main extends javax.swing.JFrame {
         this.setResizable(false);
         
         // Add internal frame        
+        this.content.add(this.beranda);
         this.content.add(this.product);
         this.content.add(this.in_product);
         this.content.add(this.out_product);
@@ -51,6 +54,9 @@ public class main extends javax.swing.JFrame {
         hide_menu();
         
         switch(menu) {
+            case "beranda":
+                this.beranda.setVisible(true);
+                break;
             case "product":
                 this.product.setVisible(true);
                 break;
@@ -72,6 +78,7 @@ public class main extends javax.swing.JFrame {
     // Hide menu    
     public void hide_menu()
     {
+        this.beranda.setVisible(false);
         this.product.setVisible(false);
         this.in_product.setVisible(false);
         this.out_product.setVisible(false);
@@ -220,7 +227,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_exitBtnActionPerformed
 
     private void berandaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_berandaBtnActionPerformed
-        // TODO add your handling code here:
+        this.show_menu("beranda");
     }//GEN-LAST:event_berandaBtnActionPerformed
 
     private void productBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBtnActionPerformed
