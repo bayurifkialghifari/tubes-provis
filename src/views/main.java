@@ -44,8 +44,8 @@ public class main extends javax.swing.JFrame {
         this.content.add(this.role);
         this.content.add(this.user);
         
-        // Hide menu       
-        this.hide_menu();
+        // Show menu beranda
+        this.show_menu("beranda");
     }
     
     // Show menu   

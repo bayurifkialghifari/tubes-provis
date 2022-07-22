@@ -15,6 +15,8 @@ public class in_product extends javax.swing.JInternalFrame {
      */
     public in_product() {
         initComponents();
+        
+        this.setSize(855, 750);
     }
 
     /**

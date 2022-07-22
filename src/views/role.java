@@ -15,6 +15,8 @@ public class role extends javax.swing.JInternalFrame {
      */
     public role() {
         initComponents();
+        
+        this.setSize(855, 750);
     }
 
     /**

@@ -15,6 +15,8 @@ public class user extends javax.swing.JInternalFrame {
      */
     public user() {
         initComponents();
+        
+        this.setSize(855, 750);
     }
 
     /**

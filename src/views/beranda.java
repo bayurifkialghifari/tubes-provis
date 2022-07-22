@@ -15,6 +15,8 @@ public class beranda extends javax.swing.JInternalFrame {
      */
     public beranda() {
         initComponents();
+        
+        this.setSize(855, 750);
     }
 
     /**
