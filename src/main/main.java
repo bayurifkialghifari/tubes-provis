@@ -16,9 +16,9 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        auth auth = new auth();
+        views.main mains = new views.main();
         
-        auth.setVisible(true);
+        mains.setVisible(true);
     }
     
 }
