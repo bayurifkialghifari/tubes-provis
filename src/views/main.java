@@ -4,17 +4,79 @@
  */
 package views;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import views.product;
+import views.in_product;
+import views.out_product;
+import views.role;
+import views.user;
+
 /**
  *
  * @author mac
  */
 public class main extends javax.swing.JFrame {
 
+    // Call view   
+    public product product = new product();
+    public in_product in_product = new in_product();
+    public out_product out_product = new out_product();
+    public role role = new role();
+    public user user = new user();
+    
     /**
      * Creates new form main
      */
     public main() {
         initComponents();
+        
+        this.setExtendedState(JFrame.MAXIMIZED_HORIZ);
+        this.setResizable(false);
+        
+        // Add internal frame        
+        this.content.add(this.product);
+        this.content.add(this.in_product);
+        this.content.add(this.out_product);
+        this.content.add(this.role);
+        this.content.add(this.user);
+        
+        // Hide menu       
+        this.hide_menu();
+    }
+    
+    // Show menu   
+    public void show_menu(String menu)
+    {
+        hide_menu();
+        
+        switch(menu) {
+            case "product":
+                this.product.setVisible(true);
+                break;
+            case "in_product":
+                this.in_product.setVisible(true);
+                break;
+            case "out_product":
+                this.out_product.setVisible(true);
+                break;
+            case "role":
+                this.role.setVisible(true);
+                break;
+            case "user":
+                this.user.setVisible(true);
+                break;
+        }
+    }
+    
+    // Hide menu    
+    public void hide_menu()
+    {
+        this.product.setVisible(false);
+        this.in_product.setVisible(false);
+        this.out_product.setVisible(false);
+        this.role.setVisible(false);
+        this.user.setVisible(false);
     }
 
     /**
@@ -34,24 +96,55 @@ public class main extends javax.swing.JFrame {
         userBtn = new javax.swing.JButton();
         roleBtn = new javax.swing.JButton();
         exitBtn = new javax.swing.JButton();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        content = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(750, 450));
 
         menuPanel.setBackground(new java.awt.Color(0, 51, 51));
         menuPanel.setForeground(new java.awt.Color(255, 255, 255));
 
         productBtn.setText("Produk");
+        productBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productBtnActionPerformed(evt);
+            }
+        });
 
         berandaBtn.setText("Beranda");
+        berandaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                berandaBtnActionPerformed(evt);
+            }
+        });
 
         masukBtn.setText("Produk Masuk");
+        masukBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                masukBtnActionPerformed(evt);
+            }
+        });
 
         keluarBtn.setText("Produk Keluar");
+        keluarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                keluarBtnActionPerformed(evt);
+            }
+        });
 
         userBtn.setText("User");
+        userBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userBtnActionPerformed(evt);
+            }
+        });
 
         roleBtn.setText("Role");
+        roleBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roleBtnActionPerformed(evt);
+            }
+        });
 
         exitBtn.setText("Keluar");
         exitBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -67,23 +160,23 @@ public class main extends javax.swing.JFrame {
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(berandaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(productBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(masukBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(keluarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(userBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(roleBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(exitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(exitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(menuPanelLayout.createSequentialGroup()
+                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(berandaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(productBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(masukBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(keluarBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(userBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(berandaBtn)
+                .addComponent(berandaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(productBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -106,22 +199,49 @@ public class main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(content))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(content)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
-        System.exit(0);
+        int confirmBtn = JOptionPane.YES_NO_OPTION;
+        int confirm = JOptionPane.showConfirmDialog(this, "Apakah anda yakin ingin keluar ?", "Peringatan", confirmBtn);
+        
+        if(confirm == 0) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void berandaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_berandaBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_berandaBtnActionPerformed
+
+    private void productBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBtnActionPerformed
+        this.show_menu("product");
+    }//GEN-LAST:event_productBtnActionPerformed
+
+    private void masukBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masukBtnActionPerformed
+        this.show_menu("in_product");
+    }//GEN-LAST:event_masukBtnActionPerformed
+
+    private void keluarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keluarBtnActionPerformed
+        this.show_menu("out_product");
+    }//GEN-LAST:event_keluarBtnActionPerformed
+
+    private void userBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userBtnActionPerformed
+        this.show_menu("user");
+    }//GEN-LAST:event_userBtnActionPerformed
+
+    private void roleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleBtnActionPerformed
+        this.show_menu("role");
+    }//GEN-LAST:event_roleBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,8 +280,8 @@ public class main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton berandaBtn;
+    private javax.swing.JDesktopPane content;
     private javax.swing.JButton exitBtn;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JButton keluarBtn;
     private javax.swing.JButton masukBtn;
     private javax.swing.JPanel menuPanel;
