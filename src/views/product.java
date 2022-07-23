@@ -39,6 +39,9 @@ public class product extends javax.swing.JInternalFrame {
             System.out.println("Show data ERROR");
         }
         
+        // Search all default
+        this.byall.setSelected(true);
+        
         // Hide action panel
         this.action_panel.setVisible(false);
     }
@@ -61,7 +64,7 @@ public class product extends javax.swing.JInternalFrame {
                 else
                     like += " or "+ where_field[i] + " like '%"+ where +"%' ";
             }
-            System.out.print(like);
+            
             // Get data with condition from database
             this.crs = this.prod.select_like("*", like);
         }
@@ -197,12 +200,19 @@ public class product extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        search_group = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         fsearch = new javax.swing.JTextField();
         search_btn = new javax.swing.JButton();
         refresh_btn = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        byall = new javax.swing.JRadioButton();
+        byid = new javax.swing.JRadioButton();
+        bynama = new javax.swing.JRadioButton();
+        byharga = new javax.swing.JRadioButton();
+        bystok = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -246,17 +256,47 @@ public class product extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setText("Pencarian Berdasarkan");
+
+        search_group.add(byall);
+        byall.setText("Semua");
+
+        search_group.add(byid);
+        byid.setText("Id");
+
+        search_group.add(bynama);
+        bynama.setText("Nama");
+
+        search_group.add(byharga);
+        byharga.setText("Harga");
+
+        search_group.add(bystok);
+        bystok.setText("Stok");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(fsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(search_btn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(refresh_btn)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(fsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(search_btn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refresh_btn))
+                    .addComponent(jLabel2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(byall)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(byid)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bynama)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(byharga)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bystok)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -267,7 +307,16 @@ public class product extends javax.swing.JInternalFrame {
                     .addComponent(fsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(search_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(refresh_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(byall)
+                    .addComponent(byid)
+                    .addComponent(bynama)
+                    .addComponent(byharga)
+                    .addComponent(bystok))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -451,12 +500,12 @@ public class product extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -555,7 +604,28 @@ public class product extends javax.swing.JInternalFrame {
 
     private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
         try {
-            String [] field = {"prod_id", "prod_name", "prod_price", "prod_qty"};
+            String field [] = new String[this.byall.isSelected() ? 4 : 1];
+            
+            // Search by id
+            if (this.byid.isSelected()) {
+                field[0] = "prod_id";
+            // Search by name
+            } else if (this.bynama.isSelected()) {
+                field[0] = "prod_name";
+            // Search by harga
+            } else if (this.byharga.isSelected()) {
+                field[0] = "prod_price";
+            // Search by Stok
+            } else if (this.bystok.isSelected()) {
+                field[0] = "prod_qty";
+            // Search all default
+            } else {
+                field[0] = "prod_id";
+                field[1] = "prod_name";
+                field[2] = "prod_price";
+                field[3] = "prod_qty";
+            }
+            
             String where = this.fsearch.getText();
         
             this.showData(field, where);
@@ -568,6 +638,11 @@ public class product extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel action_panel;
     private javax.swing.JButton add_btn;
+    private javax.swing.JRadioButton byall;
+    private javax.swing.JRadioButton byharga;
+    private javax.swing.JRadioButton byid;
+    private javax.swing.JRadioButton bynama;
+    private javax.swing.JRadioButton bystok;
     private javax.swing.JButton delete_btn;
     private javax.swing.JTextField fharga;
     private javax.swing.JTextField fid;
@@ -575,6 +650,7 @@ public class product extends javax.swing.JInternalFrame {
     private javax.swing.JTextField fsearch;
     private javax.swing.JTextField fstok;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -588,6 +664,7 @@ public class product extends javax.swing.JInternalFrame {
     private javax.swing.JButton reset_btn;
     private javax.swing.JButton save_btn;
     private javax.swing.JButton search_btn;
+    private javax.swing.ButtonGroup search_group;
     private javax.swing.JTable table;
     private javax.swing.JButton update_btn;
     // End of variables declaration//GEN-END:variables
