@@ -17,6 +17,7 @@ public class main {
      */
     public static void main(String[] args) {
         views.main mains = new views.main();
+        auth auth = new auth();
         
         mains.setVisible(true);
     }
