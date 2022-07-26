@@ -19,7 +19,7 @@ public class main {
         views.main mains = new views.main();
         auth auth = new auth();
         
-        auth.setVisible(true);
+        mains.setVisible(true);
     }
     
 }
