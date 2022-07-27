@@ -6,7 +6,7 @@
 package middleware;
 
 
-import model.user;
+import model.users;
 import javax.sql.rowset.CachedRowSet;
 
 /**
@@ -16,7 +16,7 @@ import javax.sql.rowset.CachedRowSet;
 public class authentication {
     
     password_hash hash = new password_hash();
-    user user = new user();
+    users user = new users();
     CachedRowSet crs;
     
     public static boolean isLoggedIn = false;
@@ -51,6 +51,8 @@ public class authentication {
     
     public boolean auth(String username, String password) throws Exception
     {
+        user.change_table();
+        
         crs = user.select_where("*", "user_name", username, "");
         
         int i = 0;
@@ -58,7 +60,7 @@ public class authentication {
         while(crs.next())
         {
             i++;
-            
+
             this.setId(crs.getInt("user_id"));
             this.setRole(crs.getInt("user_role_id"));
             this.setLogged(hash.verifyUserPassword(password, crs.getString("user_password"), saltvalue));
@@ -77,6 +79,8 @@ public class authentication {
     
     public boolean register(String username, String password) throws Exception
     {
+        user.change_table();
+        
         // Check then username
         crs = user.select_where("*", "user_name", username, "");
         
@@ -91,7 +95,7 @@ public class authentication {
         String [] field = {"user_role_id", "user_name", "user_password"};
         String [] data = {"2", username, encryptedpassword};
         
-        // Insert data user        
+        // Insert data users        
         if(i == 0)
         {
             user.insert(field, data);   
