@@ -4,9 +4,13 @@
  */
 package views;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.sql.rowset.CachedRowSet;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import middleware.comboitem;
 import model.products;
 import model.purchases;
 
@@ -18,7 +22,7 @@ public class in_product extends javax.swing.JInternalFrame {
 
     // Action state
     public String action;
-    public String search, id, nama, harga, stok;
+    public String search, kode, product, qty, harga, total;
     
     // Import model
     public products prod = new products();
@@ -35,9 +39,13 @@ public class in_product extends javax.swing.JInternalFrame {
         this.prod.change_table();
         this.purch.change_table();
         
+        
         // Show all data
         try {
             this.showData(null, null);
+            this.getProduk();
+            // Get kode
+            this.getCode();
         } catch (Exception ex) {
             System.out.println("Show data ERROR");
         }
@@ -81,7 +89,7 @@ public class in_product extends javax.swing.JInternalFrame {
         while(this.crs.next()) {
             newtable.addRow(new Object[]{
                 this.crs.getString("pruch_code"), 
-                this.crs.getString("prod_name"),  
+                this.crs.getString("prod_name"), 
                 this.crs.getString("pruch_qty"),
                 this.crs.getString("purch_total"),
                 this.crs.getString("purch_date"),
@@ -91,18 +99,45 @@ public class in_product extends javax.swing.JInternalFrame {
     
     // Create data
     public void create() {
+        
+        this.kode = this.fcode.getText();
+        Object itemProduct = this.fprod.getSelectedItem();
+        this.product = ((comboitem) itemProduct).getValue();
         this.harga = this.fprice.getText();
-        this.stok = this.ftotal.getText();
+        this.qty = this.fqty.getText();
+        this.total = this.ftotal.getText();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         
         // Insert data to database
-        String [] field = {"prod_name", "prod_price", "prod_qty"};
-        String [] data = {this.nama, this.harga, this.stok};
+        String [] field = {"pruch_user_id", "pruch_prod_id", "pruch_qty", "pruch_code", "purch_date", "purch_total"};
+        String [] data = {"0", this.product, this.qty, this.kode, String.valueOf(date), this.total};
         
-        this.prod.insert(field, data);
+        this.purch.insert(field, data);
+        
+        // Plus stok on product
+        try {
+            // Get data
+            this.crs = this.getProductDetail(this.product);
+            // Print the data       
+            while(this.crs.next()) {
+                
+                int stokNow = Integer.valueOf(this.crs.getString("prod_qty"));
+                int stokNowPlus = stokNow + Integer.valueOf(this.qty);
+                
+                String [] field2 = {"prod_qty"};
+                String [] data2 = {String.valueOf(stokNowPlus)};
+        
+                this.prod.update(field2, data2, "prod_id", this.product);
+            }
+        } catch (Exception ex) {
+            System.out.println("Show data ERROR");
+        }
+                
         
         try {
             this.showData(null, null);
             this.clearField();
+            this.getCode();
             
             JOptionPane.showMessageDialog(this, "Data berhasil dibuat !");
             
@@ -115,19 +150,57 @@ public class in_product extends javax.swing.JInternalFrame {
     
     // Update data
     public void update() {
-        this.id = this.fcode.getText();
+        boolean plus = true;
+        
+        this.kode = this.fcode.getText();
+        Object itemProduct = this.fprod.getSelectedItem();
+        this.product = ((comboitem) itemProduct).getValue();
         this.harga = this.fprice.getText();
-        this.stok = this.ftotal.getText();
+        
+        // Cek plus or minus
+        if(Integer.valueOf(this.qty) >= Integer.valueOf(this.fqty.getText())) {
+            plus = false;
+        }
+        
+        this.qty = this.fqty.getText();
+        this.total = this.ftotal.getText();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         
         // Insert data to database
-        String [] field = {"prod_name", "prod_price", "prod_qty"};
-        String [] data = {this.nama, this.harga, this.stok};
+        String [] field = {"pruch_user_id", "pruch_prod_id", "pruch_qty", "pruch_code", "purch_total"};
+        String [] data = {"0", this.product, this.qty, this.kode, this.total};
         
-        this.prod.update(field, data, "prod_id", this.id);
+        this.purch.update(field, data, "pruch_code", this.kode);
+        
+        // Plus stok on product
+        try {
+            // Get data
+            this.crs = this.getProductDetail(this.product);
+            // Print the data       
+            while(this.crs.next()) {
+                
+                int stokNow = Integer.valueOf(this.crs.getString("prod_qty"));
+                int stokNowPlus = 0;
+                
+                if(plus) {
+                    stokNowPlus = stokNow + Integer.valueOf(this.qty);
+                } else {
+                    stokNowPlus = stokNow - Integer.valueOf(this.qty);
+                }
+                
+                String [] field2 = {"prod_qty"};
+                String [] data2 = {String.valueOf(stokNowPlus)};
+        
+                this.prod.update(field2, data2, "prod_id", this.product);
+            }
+        } catch (Exception ex) {
+            System.out.println("Show data ERROR");
+        }
         
         try {
             this.showData(null, null);
             this.clearField();
+            this.getCode();
             
             JOptionPane.showMessageDialog(this, "Data berhasil diubah !");
             
@@ -140,11 +213,12 @@ public class in_product extends javax.swing.JInternalFrame {
     
     // Delete data
     public void delete() {
-        this.prod.delete("prod_id", this.id);
+        this.purch.delete("pruch_code", this.kode);
         
         try {
             this.showData(null, null);
             this.clearField();
+            this.getCode();
             
             JOptionPane.showMessageDialog(this, "Data berhasil dihapus !");
             
@@ -164,17 +238,98 @@ public class in_product extends javax.swing.JInternalFrame {
         for (int i = 0; i < selectedRow.length; i++) {
             for (int j = 0; j < selectedColumns; j++) {
                 
+                if(j == 0) {
+                    this.kode = (String) table.getValueAt(selectedRow[i], j);
+                    this.fcode.setText(this.kode);
+                
+                } else if (j == 1) {
+                    this.product = (String) table.getValueAt(selectedRow[i], j);
+                    
+                
+                } else if (j == 2) {
+                    this.qty = (String) table.getValueAt(selectedRow[i], j);
+                    this.fqty.setText(this.qty);
+                
+                } else if (j == 3) {
+                    this.total = (String) table.getValueAt(selectedRow[i], j);
+                    this.ftotal.setText(this.total);
+                }
             }
         }
+    }
+    
+    // Get list produk
+    public void getProduk() throws Exception {
+        int i = 0;
+        
+        // Get data
+        this.crs = this.prod.all();
+        
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        
+        this.fprod.removeAllItems();
+        
+        // Add data to combobox
+        while(this.crs.next()) {
+            if (i == 0) {
+                this.fprice.setText(this.crs.getString("prod_price"));
+            }
+            
+            model.addElement(new comboitem(
+                    this.crs.getString("prod_name"),
+                    this.crs.getString("prod_id")
+            ));
+            
+            i++;
+        }
+        
+        this.fprod.setModel(model);
     }
     
     // Reset field
     public void clearField() {
         this.fsearch.setText("");
         this.fcode.setText("");
-        this.fprice.setText("");
-        this.ftotal.setText("");
+        //this.fprice.setText("");
         this.fqty.setText("");
+        this.ftotal.setText("");
+    }
+    
+    // Get kode
+    public void getCode() throws Exception {
+        // count Data 
+        int i = 0;
+        
+        this.crs = this.purch.select_where("*", "1" ,"1", " order by pruch_code desc limit 1");
+        
+        // Print the data       
+        while(this.crs.next()) {
+            // Count data
+            i++;
+            
+            this.kode = this.crs.getString("pruch_code");
+            
+            // Add +1 to kode
+            String kodeArr [] = this.kode.split("-");
+            this.kode = "PURCH-" + String.valueOf(Integer.valueOf(kodeArr[1]) + 1);
+        }
+        
+        if(i == 0) {
+            this.kode = "PURCH-1";
+        }
+        
+        this.fcode.setText(this.kode);
+    }
+    
+    // Get produk detail
+    public CachedRowSet getProductDetail(String id) throws Exception {
+        // count Data 
+        int i = 0;
+        
+        // Search product
+        this.crs = this.prod.select_where("*", "prod_id", id, "");
+        
+        return this.crs;
     }
 
     /**
@@ -357,6 +512,7 @@ public class in_product extends javax.swing.JInternalFrame {
 
         lharga.setText("Harga");
 
+        fprice.setEditable(false);
         fprice.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 fpriceKeyTyped(evt);
@@ -393,12 +549,19 @@ public class in_product extends javax.swing.JInternalFrame {
         ltotal.setText("Total");
 
         fqty.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fqtyKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 fqtyKeyTyped(evt);
             }
         });
 
-        fprod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        fprod.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                fprodItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout action_panelLayout = new javax.swing.GroupLayout(action_panel);
         action_panel.setLayout(action_panelLayout);
@@ -550,6 +713,14 @@ public class in_product extends javax.swing.JInternalFrame {
     private void add_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_btnActionPerformed
         this.action = "create";
         this.lsave.setText("Buat pembelian baru");
+        
+        // Get kode
+        try {
+            // Get kode
+            this.getCode();
+        } catch (Exception ex) {
+            System.out.println("Show data ERROR");
+        }
 
         // Show action panel
         this.action_panel.setVisible(true);
@@ -628,6 +799,35 @@ public class in_product extends javax.swing.JInternalFrame {
             evt.consume();
         }
     }//GEN-LAST:event_fqtyKeyTyped
+
+    private void fprodItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_fprodItemStateChanged
+        // Get harga
+        Object itemProduct = this.fprod.getSelectedItem();
+        this.product = ((comboitem) itemProduct).getValue();
+        
+        try {
+            // Get data
+            this.crs = this.getProductDetail(this.product);
+            
+            // Print the data       
+            while(this.crs.next()) {
+                this.fprice.setText(this.crs.getString("prod_price"));
+            }
+        } catch (Exception ex) {
+            System.out.println("Show data ERROR");
+        }
+    }//GEN-LAST:event_fprodItemStateChanged
+
+    private void fqtyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fqtyKeyReleased
+        this.qty = this.fqty.getText();
+        this.harga = this.fprice.getText();
+        
+        this.total = String.valueOf(
+                Integer.valueOf(this.qty) * Integer.valueOf(this.harga)
+        );
+        
+        this.ftotal.setText(this.total);
+    }//GEN-LAST:event_fqtyKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
