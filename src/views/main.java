@@ -125,14 +125,14 @@ public class main extends javax.swing.JFrame {
             }
         });
 
-        masukBtn.setText("Produk Masuk");
+        masukBtn.setText("Pembelian");
         masukBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 masukBtnActionPerformed(evt);
             }
         });
 
-        keluarBtn.setText("Produk Keluar");
+        keluarBtn.setText("Penjualan");
         keluarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 keluarBtnActionPerformed(evt);
