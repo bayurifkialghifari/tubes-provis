@@ -14,7 +14,13 @@ public class database {
     private String host = "localhost";
     private String port = "3306";
     private String username = "root";
-    private String password = "12345678910";
+    
+    /*
+        Setting on my local machine
+        private String password = "12345678910";
+    */
+    
+    private String password = "";
     private String database = "provis_pos";
     
     protected String get_host()
