@@ -19,7 +19,6 @@ public class database {
         Setting on my local machine
         private String password = "12345678910";
     */
-    
     private String password = "";
     private String database = "provis_pos";
     

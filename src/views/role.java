@@ -3,17 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package views;
-
 import javax.sql.rowset.CachedRowSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.roles;
-
 /**
  *
  * @author mac
  */
 public class role extends javax.swing.JInternalFrame {
+
 
     // Action state
     public String action;
@@ -22,7 +21,7 @@ public class role extends javax.swing.JInternalFrame {
     // Import model
     public roles role = new roles();
     public CachedRowSet crs;
-    
+
     public role() {
         initComponents();
         
@@ -45,6 +44,7 @@ public class role extends javax.swing.JInternalFrame {
         this.action_panel.setVisible(false);
     }
     
+
     // Show all data
     public void showData(String[] where_field, String where) throws Exception {
         if(where_field == null) {
@@ -83,6 +83,7 @@ public class role extends javax.swing.JInternalFrame {
     
     // Create data
     public void create() {
+
         this.nama = this.fnama.getText();
         
         // Insert data to database
@@ -161,7 +162,6 @@ public class role extends javax.swing.JInternalFrame {
                 } else if (j == 1) {
                     this.nama = (String) table.getValueAt(selectedRow[i], j);
                     this.fnama.setText(this.nama);
-                
                 }
             }
         }

@@ -33,7 +33,7 @@ public class main extends javax.swing.JFrame {
     public main() {
         initComponents();
         
-        this.setExtendedState(JFrame.MAXIMIZED_HORIZ);
+        this.setSize(1000, 1000);
         this.setResizable(false);
         
         // Add internal frame        
