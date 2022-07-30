@@ -9,10 +9,10 @@ import core.ORM;
  *
  * @author mac
  */
-public class roles extends ORM {
+public class users extends ORM {
     
     public void change_table()
     {
-        this.set_table("role");
+        this.set_table("user");
     }
 }
